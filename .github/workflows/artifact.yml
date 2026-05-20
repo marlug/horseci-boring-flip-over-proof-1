@@ -1,0 +1,20 @@
+name: Artifact Test
+on:
+  pull_request:
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World Artifact" > hello.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: hello.txt
+  download:
+    needs: upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: my-artifact
+      - run: cat hello.txt
