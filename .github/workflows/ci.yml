@@ -8,8 +8,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run a script
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: false
+      - name: Cache something
+        uses: actions/cache@v4
+        with:
+          path: my-cache-dir
+          key: my-cache-key-${{ github.run_id }}
+      - name: Write cache
         run: |
-          echo "Hello from the boring proof."
+          mkdir -p my-cache-dir
+          echo "Boring cache content" > my-cache-dir/content.txt
+          echo "Hello from the boring proof rerun."
           ls -la
           echo "Done."
